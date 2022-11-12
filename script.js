@@ -4,7 +4,7 @@ const filterBtn = document.getElementById('filter')
 const body = document.querySelector('body')
 
 // Number of pokemon to fetch
-const pokemon_count = 904
+const pokemon_count = 151
 
 const type_colors = {
   normal: '#A8A878',

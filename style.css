@@ -118,3 +118,7 @@ h1 {
   margin: 5px;
   padding: 5px;
 }
+
+.hide {
+  display: none;
+}

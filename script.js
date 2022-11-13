@@ -38,20 +38,30 @@ type_toggles.forEach(toggle => {
 })
 
 const updateTypeCriteria = (toggle) => {
-  const label = toggle.nextElementSibling
+  const toggleLabel = toggle.nextElementSibling
 
+  // Change toggle opacity and add/remove from criteria
   if(toggle.checked) {
-    label.style.opacity = '1'
-    // label.style.backgroundColor = type_colors[label.innerText.toLowerCase()]
+    toggleLabel.style.opacity = '1'
     type_criteria.push(toggle.id)
   } else {
-    label.style.opacity = '0.5'
-    // label.style.backgroundColor = type_colors[label.innerText.toLowerCase()] + 20
+    toggleLabel.style.opacity = '0.5'
     type_criteria = type_criteria.filter(type => type !== toggle.id)
   }
 
-  poke_container.innerHTML = ''
-  fetchPokemons()
+  // loop all pokemon, if pokemon types has all criteria remove hide
+  const pokemonList = document.querySelectorAll('.pokemon')
+
+  pokemonList.forEach(pokemon => {
+    pokemon.classList.remove('hide')
+
+    type_criteria.forEach(type => {
+      // if pokemon doesnt have all type hide it
+      if(!pokemon.classList.contains(type)) {
+        pokemon.classList.add('hide')
+      }
+    })
+  })
 }
 
 const fetchPokemons = async () => {
@@ -85,11 +95,7 @@ const getPokemon = async (id) => {
   const url = `https://pokeapi.co/api/v2/pokemon/${id}`
   const res = await fetch(url)
   const data = await res.json()
-
-  //if pokemon has all types in filter criteria
-  if(type_criteria.every(v => data.types.map(type => type.type.name).includes(v))) {
-    createPokemonCard(data)
-  }
+  createPokemonCard(data)
 }
 
 const createPokemonCard = (pokemon) => {
@@ -103,15 +109,16 @@ const createPokemonCard = (pokemon) => {
   // Make card div
   const pokemonEl = document.createElement('div')
   pokemonEl.classList.add('pokemon')
+  poke_types.forEach(type => pokemonEl.classList.add(type))
   pokemonEl.style.backgroundColor = main_color + '60'
   pokemonEl.innerHTML = `
-  <div class="img-container">
-    <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png" alt="">
-  </div>
-  <div class="info">
-    <span class="number">#${id}</span>
-    <h3 class="name">${name}</h3>
-  </div>
+    <div class="img-container">
+      <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png" alt="">
+    </div>
+    <div class="info">
+      <span class="number">#${id}</span>
+      <h3 class="name">${name}</h3>
+    </div>
   `
 
   // Make types container

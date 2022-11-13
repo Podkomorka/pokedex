@@ -65,9 +65,6 @@ const updateTypeCriteria = (toggle) => {
 }
 
 const fetchPokemons = async () => {
-  // Disable toggles to prevent overlapping fetches from quick toggles
-  type_toggles.forEach(toggle => toggle.disabled = true)
-
   // Hide loading pokemon
   poke_container.style.display = 'none'
 
@@ -79,6 +76,8 @@ const fetchPokemons = async () => {
 
   for(let i = 1; i <= pokemon_count; i++) {
     await getPokemon(i)
+    // display that number in loading inner text
+    loading.innerText = `Loading... (${i}/${pokemon_count})`
   }
 
   // Enable toggle use

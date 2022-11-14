@@ -1,11 +1,8 @@
 const poke_container = document.getElementById('poke-container')
+const toggle_container = document.querySelector('.toggles')
 const type_toggles = document.querySelectorAll('.toggle')
 const filterBtn = document.getElementById('filter')
-const body = document.querySelector('body')
-
-// Number of pokemon to fetch
-const pokemon_count = 905
-
+const loading = document.querySelector('.loading')
 const type_colors = {
   normal: '#A8A878',
   fire: '#F08030',
@@ -26,9 +23,13 @@ const type_colors = {
   steel: '#B8B8D0',
   fairy: '#F0B6BC'
 }
+// Number of pokemon to fetch
+const pokemon_count = 905
 
+// Stores current toggled types
 let type_criteria = []
 
+// Add event listeners to toggles and set styling
 type_toggles.forEach(toggle => {
   const label = toggle.nextElementSibling
 
@@ -65,29 +66,15 @@ const updateTypeCriteria = (toggle) => {
 }
 
 const fetchPokemons = async () => {
-  // Hide loading pokemon
-  poke_container.style.display = 'none'
-
-  // Create and show a Loading message
-  const loading = document.createElement('div')
-  loading.classList.add('loading')
-  loading.innerText = 'Loading...'
-  body.appendChild(loading)
-
   for(let i = 1; i <= pokemon_count; i++) {
     await getPokemon(i)
-    // display that number in loading inner text
+    // Display that number in loading inner text
     loading.innerText = `Loading... (${i}/${pokemon_count})`
   }
 
-  // Enable toggle use
-  type_toggles.forEach(toggle => toggle.disabled = false)
-
-  // Remove Loading message
-  body.removeChild(loading)
-
-  // Show pokemon results
-  poke_container.style.display = 'flex'
+  // Loading complete hide loading, show toggles
+  loading.classList.add('hide')
+  toggle_container.classList.remove('hide')
 }
 
 const getPokemon = async (id) => {
@@ -99,7 +86,7 @@ const getPokemon = async (id) => {
 
 const createPokemonCard = (pokemon) => {
   // Get pokemon data
-  const name = pokemon.name[0].toUpperCase() + pokemon.name.slice(1)
+  const name = pokemon.name
   const id = pokemon.id.toString().padStart(3,'0')
   const poke_types = pokemon.types.map(type => type.type.name)
   const main_type = poke_types[0]

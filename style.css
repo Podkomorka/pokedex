@@ -40,7 +40,7 @@ h1 {
 }
 
 .loading {
-  margin-top: 100px;
+  margin: 30px auto;
   background-color: rgba(255,255,255,0.5);
   padding: 10px 20px;
   font-size: 20px;
@@ -101,6 +101,7 @@ h1 {
 .pokemon .info .name {
   margin: 15px 0 7px;
   letter-spacing: 1px;
+  text-transform: capitalize;
 }
 
 .pokemon .types {

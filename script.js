@@ -18,13 +18,13 @@ const type_colors = {
   bug: '#A8B820',
   rock: '#B8A038',
   ghost: '#705898',
-  dark: '#705848',
   dragon: '#7038F8',
   steel: '#B8B8D0',
   fairy: '#F0B6BC'
 }
+
 // Number of pokemon to fetch
-const pokemon_count = 905
+const pokemon_count = 151
 
 // Stores current toggled types
 let type_criteria = []
